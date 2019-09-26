@@ -53,13 +53,6 @@
 // (client-side, and gives better line information).
 
 {
-  // resource contructors will use kinds/versions/fields compatible at least with version:
-  minKubeVersion: {
-    major: 1,
-    minor: 9,
-    version: "%s.%s" % [self.major, self.minor],
-  },
-
   // Returns array of values from given object.  Does not include hidden fields.
   objectValues(o):: [o[field] for field in std.objectFields(o)],
 
@@ -210,7 +203,6 @@
         },
       },
       accessModes: ["ReadWriteOnce"],
-      [if pvc.storageClass != null then "storageClassName"]: pvc.storageClass,
     },
   },
 
@@ -419,9 +411,6 @@
 
       // NB: Upstream default is 0
       minReadySeconds: 30,
-
-      // NB: Regular k8s default is to keep all revisions
-      revisionHistoryLimit: 10,
 
       replicas: 1,
     },
@@ -703,7 +692,6 @@
       ingress_:: {},
       egress: $.objectValues(self.egress_),
       egress_:: {},
-      podSelector: {},
     },
   },
 }
